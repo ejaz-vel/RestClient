@@ -2,6 +2,9 @@ package rest.client;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 
@@ -47,6 +50,24 @@ public class UserClient {
 		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
 		User user = mapper.readValue(result, User.class);
 		return user;
+	}
+	
+	public List<Book> recommendBooks(int id) throws IOException {
+		List<Book> books = new ArrayList<>();
+		String uri = userResource + "Recommend/" + String.valueOf(id);
+		OkHttpClient client = new OkHttpClient();
+		Request request = new Request.Builder()
+			      .url(uri)
+			      .build();
+		Response response = client.newCall(request).execute();
+		if (response.code() != 200) {
+			return books;
+		}
+		String result = response.body().string();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+		books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
+		return books;
 	}
 	
 	public User login(String loginID, String password) throws IOException {
@@ -108,7 +129,14 @@ public class UserClient {
 	public static void main(String args[]) {
 		UserClient uc = new UserClient();
 		try {
-			uc.login("4126362590", "ejazveljee");
+//			User u = uc.signUp("ejaz@gmail.com", "ejazveljee", "CMU", "4126362590");
+//			System.out.println(u.getId());
+//			u = uc.signUp("aditya@gmail.com", "adityagautam", "CMU", "4126362591");
+//			System.out.println(u.getId());
+//			u = uc.signUp("tanima@gmail.com", "tanimamakkad", "CMU", "4126362592");
+//			System.out.println(u.getId());
+			List<Book> books = uc.recommendBooks(1);
+			System.out.println(books.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

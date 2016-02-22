@@ -25,7 +25,7 @@ public class BookClient {
 
 		// Use the query to search for book names
 		Request request = new Request.Builder()
-			      .url(bookResource + "?name=Machine Learning")
+			      .url(bookResource + "?name=" + query)
 			      .build();
 		Response response = client.newCall(request).execute();
 		if (response.code() == 200) {
@@ -37,7 +37,7 @@ public class BookClient {
 
 		// Use the query to search for book author
 		request = new Request.Builder()
-			      .url(bookResource + "?author=Machine Learning")
+			      .url(bookResource + "?author=" + query)
 			      .build();
 		response = client.newCall(request).execute();
 		if (response.code() == 200) {
@@ -95,22 +95,22 @@ public class BookClient {
 	public static void main(String args[]) {
 		BookClient bc = new BookClient();
 		try {
-//			Book newBook = new Book();
-//			newBook.setUserID(1);
-//			newBook.setName("Machine Learning");
-//			newBook.setAuthor("Tom Mitchel");
-//			newBook.setEdition("1.2");
-//			newBook.setPrice(15.0);
-//			newBook.setSaleAllowed(false);
-//			newBook.setRentAllowed(true);
-//			newBook.setMinimumRentPeriod(2);
-//			newBook.setMaximumRentPeriod(18);
-//			newBook.setDescription("Introduction to ML course book");
-//			newBook.setBiddingAllowed(true);
-//			Book book = bc.listBook(newBook);
+			Book newBook = new Book();
+			newBook.setUserID(3);
+			newBook.setName("Android");
+			newBook.setAuthor("OReally");
+			newBook.setEdition("1.5");
+			newBook.setPrice(10.0);
+			newBook.setSaleAllowed(false);
+			newBook.setRentAllowed(true);
+			newBook.setMinimumRentPeriod(3);
+			newBook.setMaximumRentPeriod(18);
+			newBook.setDescription("Android Tutorial for Beginners");
+			newBook.setBiddingAllowed(true);
+			Book book = bc.listBook(newBook);
 			
-			List<Book> books = bc.search("Machine Learning");
-			System.out.println(books.size());
+//			List<Book> books = bc.search("Machine Learning");
+			System.out.println(book.getId());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
