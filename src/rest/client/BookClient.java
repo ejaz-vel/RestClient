@@ -1,71 +1,118 @@
 package rest.client;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class BookClient {
 
-	private static final String bookResource = "http://52.27.180.51/BookStore/v1.0/Book/";
-
-	public Set<Book> search(String query) throws ClientProtocolException, IOException {
-		Set<Book> books = new HashSet<>();
-		HttpClient client = HttpClientBuilder.create().build();
-		query = query.replaceAll(" ", "%20");
+	private static final String bookResource = "http://52.36.182.190/BookStore/v1.0/Book/";
+	
+	public List<Book> search(String query) throws IOException {
+		List<Book> books = new ArrayList<>();
+		OkHttpClient client = new OkHttpClient();
 
 		// Use the query to search for book names
-		String uri = bookResource + "?name=" + query;
-		HttpGet get = new HttpGet(uri);
-		HttpResponse response = client.execute(get);
-		if (response.getStatusLine().getStatusCode() == 200) {
-			String result = EntityUtils.toString(response.getEntity());
+		Request request = new Request.Builder()
+			      .url(bookResource + "?name=Machine Learning")
+			      .build();
+		Response response = client.newCall(request).execute();
+		if (response.code() == 200) {
+			String result = response.body().string();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(Set.class, Book.class)));
+			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
 		}
 
 		// Use the query to search for book author
-		uri = bookResource + "?author=" + query;
-		get = new HttpGet(uri);
-		response = client.execute(get);
-		if (response.getStatusLine().getStatusCode() == 200) {
-			String result = EntityUtils.toString(response.getEntity());
+		request = new Request.Builder()
+			      .url(bookResource + "?author=Machine Learning")
+			      .build();
+		response = client.newCall(request).execute();
+		if (response.code() == 200) {
+			String result = response.body().string();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(Set.class, Book.class)));
+			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
 		}
 		return books;
 	}
 	
-//	public Book listBook(Integer user_id, String name, String author, String edition, String description,
-//			Boolean biddingAllowed, Double latitude, Double longitude) {
-//		JSONObject jsonObj = new JSONObject();
-//		jsonObj.put("user_id", String.valueOf(user_id));
-//		jsonObj.put("name", name);
-//		jsonObj.put("author", author);
-//		jsonObj.put("edition", edition);
-//		jsonObj.put("description", description);
-//		if (biddingAllowed) {
-//			jsonObj.put("bidding_allowed", true);
-//		}
-//		
-//		if (latitude != null && longitude != null) {
-//			jsonObj.put("latitude", String.valueOf(latitude));
-//			jsonObj.put("longitude", String.valueOf(longitude));
-//		}
-//		
-//		HttpClient client = HttpClientBuilder.create().build();
-//		
-//	}
+	public Book listBook(Book newBook) throws IOException {
+		
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("user_id", newBook.getUserID());
+		jsonObj.put("name", newBook.getName());
+		jsonObj.put("edition", newBook.getEdition());
+		jsonObj.put("author", newBook.getEdition());
+		jsonObj.put("description", newBook.getDescription());
+		jsonObj.put("price", newBook.getPrice());
+		jsonObj.put("sell", newBook.getSaleAllowed());
+		
+		if (newBook.getRentAllowed()) {
+			jsonObj.put("rent", newBook.getRentAllowed());
+			jsonObj.put("minimum_period", newBook.getMinimumRentPeriod());
+			jsonObj.put("maximum_period", newBook.getMaximumRentPeriod());
+		}
+		
+		if (newBook.getBiddingAllowed() != null) {
+			jsonObj.put("bidding_allowed", newBook.getBiddingAllowed());
+		}
+		
+		if(newBook.getLatitude() != null && newBook.getLongitude() != null) {
+			jsonObj.put("latitude", newBook.getLatitude());
+			jsonObj.put("longitude", newBook.getLongitude());
+		}
+		
+		OkHttpClient client = new OkHttpClient();
+		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObj.toString());
+		Request request = new Request.Builder()
+			      .url(bookResource)
+			      .post(body)
+			      .build();
+		Response response = client.newCall(request).execute();
+		if (response.code() != 201) {
+			return null;
+		}
+		String result = response.body().string();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+		Book book =  mapper.readValue(result, Book.class);
+		return book;
+	}
+	
+	public static void main(String args[]) {
+		BookClient bc = new BookClient();
+		try {
+//			Book newBook = new Book();
+//			newBook.setUserID(1);
+//			newBook.setName("Machine Learning");
+//			newBook.setAuthor("Tom Mitchel");
+//			newBook.setEdition("1.2");
+//			newBook.setPrice(15.0);
+//			newBook.setSaleAllowed(false);
+//			newBook.setRentAllowed(true);
+//			newBook.setMinimumRentPeriod(2);
+//			newBook.setMaximumRentPeriod(18);
+//			newBook.setDescription("Introduction to ML course book");
+//			newBook.setBiddingAllowed(true);
+//			Book book = bc.listBook(newBook);
+			
+			List<Book> books = bc.search("Machine Learning");
+			System.out.println(books.size());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

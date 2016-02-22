@@ -28,11 +28,26 @@ public class Book {
 	@JsonProperty("description")
 	private String description;
 	
+	@JsonProperty("price")
+	private Double price;
+	
 	@JsonProperty("latitude")
 	private Double latitude;
 	
 	@JsonProperty("longitude")
 	private Double longitude;
+	
+	@JsonProperty("rent")
+	private Boolean rentAllowed;
+
+	@JsonProperty("sell")
+	private Boolean saleAllowed;
+	
+	@JsonProperty("minimum_period")
+	private Integer minimumRentPeriod;
+	
+	@JsonProperty("maximum_period")
+	private Integer maximumRentPeriod;
 	
 	@JsonProperty("id")
 	public Integer getId() {
@@ -106,6 +121,15 @@ public class Book {
 		this.description = description;
 	}
 
+	@JsonProperty("price")
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	@JsonProperty("latitude")
 	public Double getLatitude() {
 		return latitude;
@@ -122,5 +146,41 @@ public class Book {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+	
+	@JsonProperty("rent")
+	public Boolean getRentAllowed() {
+		return rentAllowed;
+	}
+
+	public void setRentAllowed(Boolean rentAllowed) {
+		this.rentAllowed = rentAllowed;
+	}
+
+	@JsonProperty("sell")
+	public Boolean getSaleAllowed() {
+		return saleAllowed;
+	}
+
+	public void setSaleAllowed(Boolean saleAllowed) {
+		this.saleAllowed = saleAllowed;
+	}
+
+	@JsonProperty("minimum_period")
+	public Integer getMinimumRentPeriod() {
+		return minimumRentPeriod;
+	}
+
+	public void setMinimumRentPeriod(Integer minimumRentPeriod) {
+		this.minimumRentPeriod = minimumRentPeriod;
+	}
+
+	@JsonProperty("maximum_period")
+	public Integer getMaximumRentPeriod() {
+		return maximumRentPeriod;
+	}
+
+	public void setMaximumRentPeriod(Integer maximumRentPeriod) {
+		this.maximumRentPeriod = maximumRentPeriod;
 	}
 }
