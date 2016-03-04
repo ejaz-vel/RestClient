@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserClient {
-	private static final String userResource = "http://52.36.182.190/BookStore/v1.0/User/";
+	private static final String userResource = "http://52.25.118.160/BookStore/v1.0/User/";
 
 	private String getMD5(String password) {
 		try {
