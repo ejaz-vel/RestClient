@@ -115,10 +115,12 @@ public class UserClient {
 			      .url(userResource)
 			      .post(body)
 			      .build();
+		
 		Response response = client.newCall(request).execute();
 		if (response.code() != 201) {
 			return null;
 		}
+		
 		String result = response.body().string();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);

@@ -17,7 +17,7 @@ import okhttp3.Response;
 
 public class BookClient {
 
-	private static final String bookResource = "http://52.25.118.160/BookStore/v1.0/Book/";
+	private static final String bookResource = "http://127.0.0.1:8080/BookStore/v1.0/Book/";
 	
 	public List<Book> search(String query) throws IOException {
 		List<Book> books = new ArrayList<>();
@@ -25,26 +25,17 @@ public class BookClient {
 
 		// Use the query to search for book names
 		Request request = new Request.Builder()
-			      .url(bookResource + "?name=" + query)
+			      .url(bookResource + "?queryString=" + query)
 			      .build();
+		
 		Response response = client.newCall(request).execute();
+		
 		if (response.code() == 200) {
 			String result = response.body().string();
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
-		}
-
-		// Use the query to search for book author
-		request = new Request.Builder()
-			      .url(bookResource + "?author=" + query)
-			      .build();
-		response = client.newCall(request).execute();
-		if (response.code() == 200) {
-			String result = response.body().string();
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-			books.addAll((Collection<? extends Book>) mapper.readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
+			books.addAll((Collection<? extends Book>) mapper.readValue(result, 
+					mapper.getTypeFactory().constructCollectionType(List.class, Book.class)));
 		}
 		return books;
 	}
@@ -60,6 +51,7 @@ public class BookClient {
 		jsonObj.put("price", newBook.getPrice());
 		jsonObj.put("sell", newBook.getSaleAllowed());
 		
+		// Optional fields
 		if (newBook.getRentAllowed()) {
 			jsonObj.put("rent", newBook.getRentAllowed());
 			jsonObj.put("minimum_period", newBook.getMinimumRentPeriod());
@@ -109,7 +101,7 @@ public class BookClient {
 //			newBook.setBiddingAllowed(false);
 //			Book book = bc.listBook(newBook);
 			
-			List<Book> books = bc.search("Harry Potter");
+			List<Book> books = bc.search("hellobook");
 			System.out.println(books.size());
 		} catch (IOException e) {
 			e.printStackTrace();
