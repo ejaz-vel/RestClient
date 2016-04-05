@@ -1,9 +1,12 @@
 package rest.client;
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+@SuppressWarnings("serial")
 @JsonRootName(value = "book")
-public class Book {
+public class Book implements Serializable {
 	@JsonProperty("id")
 	private Integer id;
 	

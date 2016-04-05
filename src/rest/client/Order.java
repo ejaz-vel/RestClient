@@ -1,4 +1,6 @@
 package rest.client;
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
@@ -10,8 +12,9 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * dict['price'] = self.price 
  */
 
+@SuppressWarnings("serial")
 @JsonRootName(value = "order")
-public class Order {
+public class Order implements Serializable{
 	
 	@JsonProperty("orderId")
 	private Integer orderId;
