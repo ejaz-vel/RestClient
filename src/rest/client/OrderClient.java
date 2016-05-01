@@ -1,8 +1,5 @@
 package rest.client;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.json.simple.JSONObject;
 
@@ -25,10 +22,14 @@ import okhttp3.Response;
 
 public class OrderClient {
 
-	private static final String OrderResource = "http://127.0.0.1:8080/BookStore/v1.0/Orders/";
-	
+	private String OrderResource;
+
+	public OrderClient(String IPAddress) {
+		OrderResource = "http://" + IPAddress + "/BookStore/v1.0/Orders/";
+	}
+
 	public Order postOrder(int orderid, String orderdate, int book_id,
-			                int user_id, float price) throws IOException {
+			int user_id, float price) throws IOException {
 
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("orderId", orderid);
@@ -40,10 +41,10 @@ public class OrderClient {
 		OkHttpClient client = new OkHttpClient();
 		RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObj.toString());
 		Request request = new Request.Builder()
-			      .url(OrderResource)
-			      .post(body)
-			      .build();
-		
+				.url(OrderResource)
+				.post(body)
+				.build();
+
 		System.out.println("Sending Order to server");
 		Response response = client.newCall(request).execute();
 		if (response.code() != 201) {
@@ -55,26 +56,5 @@ public class OrderClient {
 		mapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
 		Order order =  mapper.readValue(result, Order.class);
 		return order;
-	}
-	
-	public static void main(String args[]) {
-		
-		OrderClient order_client = new OrderClient();
-		Order order = new Order();
-		
-		/*
-		order.setbookId("bookId");
-		order.setorderId(1);
-		order.setprice("$100");
-		order.setuserId("123");
-		order.setdateOrder(12345);
-		*/
-		
-		try {
-			order_client.postOrder(1,"OrderDate", 123, 12345, 100);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

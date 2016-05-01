@@ -18,7 +18,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserClient {
-	private static final String userResource = "http://52.25.118.160/BookStore/v1.0/User/";
+	private String userResource;
+	
+	public UserClient(String IPAddress) {
+		userResource = "http://" + IPAddress + "/BookStore/v1.0/User/";
+	}
 
 	private String getMD5(String password) {
 		try {
@@ -129,7 +133,7 @@ public class UserClient {
 	}
 	
 	public static void main(String args[]) {
-		UserClient uc = new UserClient();
+		UserClient uc = new UserClient("127.0.0.1:8080");
 		try {
 //			User u = uc.signUp("ejaz@gmail.com", "ejazveljee", "CMU", "4126362590");
 //			System.out.println(u.getId());
