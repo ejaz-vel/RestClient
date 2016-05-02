@@ -56,9 +56,13 @@ public class UserClient {
 		return user;
 	}
 	
-	public List<Book> recommendBooks(int id) throws IOException {
+	public List<Book> recommendBooks(int id, Double latitude, Double longitude) throws IOException {
 		List<Book> books = new ArrayList<>();
 		String uri = userResource + "Recommend/" + String.valueOf(id);
+		if (latitude != null && longitude != null) {
+			uri += "?latitude=" + String.valueOf(latitude) + "&";
+			uri += "longitude=" + String.valueOf(longitude);
+		}
 		OkHttpClient client = new OkHttpClient();
 		Request request = new Request.Builder()
 			      .url(uri)
@@ -133,7 +137,7 @@ public class UserClient {
 	}
 	
 	public static void main(String args[]) {
-		UserClient uc = new UserClient("127.0.0.1:8080");
+		UserClient uc = new UserClient("52.27.184.29:80");
 		try {
 //			User u = uc.signUp("ejaz@gmail.com", "ejazveljee", "CMU", "4126362590");
 //			System.out.println(u.getId());
@@ -141,7 +145,7 @@ public class UserClient {
 //			System.out.println(u.getId());
 //			u = uc.signUp("tanima@gmail.com", "tanimamakkad", "CMU", "4126362592");
 //			System.out.println(u.getId());
-			List<Book> books = uc.recommendBooks(1);
+			List<Book> books = uc.recommendBooks(1, 40.456893, -79.932984);
 			System.out.println(books.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
