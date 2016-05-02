@@ -89,26 +89,26 @@ public class BookClient {
 	}
 
 	public static void main(String args[]) {
-//		BookClient bc = new BookClient();
-//		try {
-//						Book newBook = new Book();
-//						newBook.setUserID(3);
-//						newBook.setName("Harry Potter and Order Of Phoenix");
-//						newBook.setAuthor("Harry Potter");
-//						newBook.setEdition("1.0");
-//						newBook.setPrice(15.0);
-//						newBook.setSaleAllowed(true);
-//						newBook.setRentAllowed(false);
-//						newBook.setMinimumRentPeriod(4);
-//						newBook.setMaximumRentPeriod(20);
-//						newBook.setDescription("Harry Potter");
-//						newBook.setBiddingAllowed(false);
-//						Book book = bc.listBook(newBook);
-//
-//			List<Book> books = bc.search("hellobook");
-//			System.out.println(books.size());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		BookClient bc = new BookClient("52.36.199.35");
+		try {
+			Book newBook = new Book();
+			newBook.setUserID(1);
+			newBook.setName("Hadoop Map Reduce");
+			newBook.setAuthor("Jim Dean");
+			newBook.setEdition("1.0");
+			newBook.setPrice(5.0);
+			newBook.setSaleAllowed(true);
+			newBook.setRentAllowed(false);
+			newBook.setMinimumRentPeriod(4);
+			newBook.setMaximumRentPeriod(20);
+			newBook.setDescription("Brand New");
+			newBook.setBiddingAllowed(false);
+			newBook.setLatitude(40.446893);
+			newBook.setLongitude(-79.933984);
+			Book book = bc.listBook(newBook);
+			System.out.println(book);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
