@@ -40,6 +40,9 @@ public class Book implements Serializable {
 	@JsonProperty("longitude")
 	private Double longitude;
 	
+	@JsonProperty("condition")
+	private Float condition;
+	
 	@JsonProperty("rent")
 	private Boolean rentAllowed;
 
@@ -52,6 +55,15 @@ public class Book implements Serializable {
 	@JsonProperty("maximum_period")
 	private Integer maximumRentPeriod;
 	
+	@JsonProperty("condition")
+	public Float getCondition() {
+		return condition;
+	}
+
+	public void setCondition(Float condition) {
+		this.condition = condition;
+	}
+
 	@JsonProperty("id")
 	public Integer getId() {
 		return id;

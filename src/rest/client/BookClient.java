@@ -54,6 +54,12 @@ public class BookClient {
 		jsonObj.put("description", newBook.getDescription());
 		jsonObj.put("price", newBook.getPrice());
 		jsonObj.put("sell", newBook.getSaleAllowed());
+		
+		if (newBook.getCondition() == null) {
+			jsonObj.put("condition", 3.0);
+		} else {
+			jsonObj.put("condition", newBook.getCondition());
+		}
 
 		// Optional fields
 		if (newBook.getRentAllowed()) {
