@@ -139,14 +139,14 @@ public class UserClient {
 	public static void main(String args[]) {
 		UserClient uc = new UserClient("52.27.184.29:80");
 		try {
-//			User u = uc.signUp("ejaz@gmail.com", "ejazveljee", "CMU", "4126362590");
-//			System.out.println(u.getId());
-//			u = uc.signUp("aditya@gmail.com", "adityagautam", "CMU", "4126362591");
-//			System.out.println(u.getId());
-//			u = uc.signUp("tanima@gmail.com", "tanimamakkad", "CMU", "4126362592");
-//			System.out.println(u.getId());
-			List<Book> books = uc.recommendBooks(1, 40.456893, -79.932984);
-			System.out.println(books.size());
+			User u = uc.signUp("ejaz@gmail.com", "ejazveljee", "CMU", "4126362590");
+			System.out.println(u.getId());
+			u = uc.signUp("aditya@gmail.com", "adityagautam", "CMU", "4126362591");
+			System.out.println(u.getId());
+			u = uc.signUp("tanima@gmail.com", "tanimamakkad", "CMU", "4126362592");
+			System.out.println(u.getId());
+			//List<Book> books = uc.recommendBooks(1, 40.456893, -79.932984);
+		//	System.out.println(books.size());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

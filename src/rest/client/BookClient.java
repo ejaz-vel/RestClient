@@ -49,7 +49,9 @@ public class BookClient {
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("user_id", newBook.getUserID());
 		jsonObj.put("name", newBook.getName());
-		jsonObj.put("edition", newBook.getEdition());
+		if (newBook.getEdition() != null) {
+			jsonObj.put("edition", newBook.getEdition());
+		}
 		jsonObj.put("author", newBook.getAuthor());
 		jsonObj.put("description", newBook.getDescription());
 		jsonObj.put("price", newBook.getPrice());
@@ -62,7 +64,7 @@ public class BookClient {
 		}
 
 		// Optional fields
-		if (newBook.getRentAllowed()) {
+		if (newBook.getRentAllowed() != null && newBook.getRentAllowed() == true) {
 			jsonObj.put("rent", newBook.getRentAllowed());
 			jsonObj.put("minimum_period", newBook.getMinimumRentPeriod());
 			jsonObj.put("maximum_period", newBook.getMaximumRentPeriod());
@@ -95,22 +97,23 @@ public class BookClient {
 	}
 
 	public static void main(String args[]) {
-		BookClient bc = new BookClient("52.36.199.35");
+		BookClient bc = new BookClient("52.27.184.29");
 		try {
 			Book newBook = new Book();
 			newBook.setUserID(1);
-			newBook.setName("Hadoop Map Reduce");
-			newBook.setAuthor("Jim Dean");
+			newBook.setName("Spark");
+			newBook.setAuthor("Nathanial Clyne");
 			newBook.setEdition("1.0");
-			newBook.setPrice(5.0);
+			newBook.setPrice(50.0);
+			newBook.setCondition((float) 4.5);
 			newBook.setSaleAllowed(true);
-			newBook.setRentAllowed(false);
-			newBook.setMinimumRentPeriod(4);
-			newBook.setMaximumRentPeriod(20);
-			newBook.setDescription("Brand New");
+			//newBook.setRentAllowed(true);
+			//newBook.setMinimumRentPeriod(1);
+			//newBook.setMaximumRentPeriod(12);
+			newBook.setDescription("Excellent Condition. Book used only for 1 month. Must have book for all Spark users out there.");
 			newBook.setBiddingAllowed(false);
-			newBook.setLatitude(40.446893);
-			newBook.setLongitude(-79.933984);
+			newBook.setLatitude(40.443756);
+			newBook.setLongitude(-79.935176);
 			Book book = bc.listBook(newBook);
 			System.out.println(book);
 		} catch (IOException e) {
